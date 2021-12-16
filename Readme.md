@@ -17,16 +17,17 @@
 
         -   winningScore: int (default: 100)
         -   players: array of PlayerObjects
-        -   currentPlayer: PlayerObject
+        -   currentPlayer: PlayerObject / index in players array
+        -   currentRoll: int
 
     -   render:
 
     ```
         <div>
             <ButtonComponent value='New Game'/>
-            <PlayerComponent value='Player1'/>
+            <PlayerComponent value='Player1' propPlayer={PlayerObject}/>
             <DiceComponent value='Dice'/>
-            <PlayerComponent value='Player2'/>
+            <PlayerComponent value='Player2' propPlayer={PlayerObject}/>
             <ButtonComponent value='Roll Dice'/>
             <ButtonComponent value='Hold'/>
             <input type="text" value='100'/>
@@ -34,13 +35,11 @@
     ```
 
     -   functions:
-        -   renderPlayers: function
-        -   renderCurrentPlayer: function
+        -   renderGame: function
         -   renderRollDice: function
         -   renderNewGame: function
-        -   renderWinningScore: function
         -   renderGameOver: function
-        -   renderGame: function
+        -   onHoldClick: function -> saves the current player's score and switches to the next player(changes state's currentPlayer)
 
 -   Player component that holds the player's state
 
