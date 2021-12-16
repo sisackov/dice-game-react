@@ -18,8 +18,6 @@ class App extends React.Component {
         this.state = {
             displayState: DISPLAY_STATE.INITIAL,
             diceRoll: [0, 0],
-            // playerOne: this.players[0],
-            // playerTwo: this.players[1],
             currentPlayer: 0, // index of the player whose turn it is
             targetScore: 100, // the winning score - will be defined on new game
         };
@@ -51,6 +49,31 @@ class App extends React.Component {
         });
     };
 
+    rollDice = () => {
+        const diceRoll = [
+            Math.floor(Math.random() * 6) + 1,
+            Math.floor(Math.random() * 6) + 1,
+        ];
+        this.setState(() => {
+            return { diceRoll: diceRoll };
+        });
+    };
+
+    onHoldClick = () => {
+        const { currentPlayer, targetScore } = this.state;
+        if (this.players[currentPlayer].score > targetScore) {
+            //game over  TODO: add game over screen
+            this.setState({ displayState: DISPLAY_STATE.ENDED });
+        } else {
+            this.setState(() => {
+                return {
+                    currentPlayer: (currentPlayer + 1) % this.players.length,
+                    diceRoll: [0, 0],
+                };
+            });
+        }
+    };
+
     renderTopBar() {
         return (
             <nav key='top-navbar' className='nav-container'>
@@ -78,22 +101,11 @@ class App extends React.Component {
         return (
             <PlayerComponent
                 key={`player-${currentPlayer.name}`}
-                playerName={currentPlayer.name}
-                playerScore={currentPlayer.score}
-                isActive={currentPlayer.isActive}
+                player={currentPlayer}
+                target={this.state.targetScore}
                 rolls={this.state.diceRoll}
             />
         );
-    };
-
-    rollDice = () => {
-        const diceRoll = [
-            Math.floor(Math.random() * 6) + 1,
-            Math.floor(Math.random() * 6) + 1,
-        ];
-        this.setState(() => {
-            return { diceRoll: diceRoll };
-        });
     };
 
     renderBottomBar = () => {
@@ -107,13 +119,12 @@ class App extends React.Component {
                 <ButtonComponent
                     label='Hold'
                     image='hold'
-                    parentClickHandler={this.hold}
+                    parentClickHandler={this.onHoldClick}
                 />
             </div>
         ) : null;
     };
 
-    //TODO: add onClick handler, image to buttons
     renderContent() {
         return [this.renderTopBar(), this.renderMain(), this.renderBottomBar()];
     }

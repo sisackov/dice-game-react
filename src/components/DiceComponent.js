@@ -31,9 +31,14 @@ class DiceComponent extends React.Component {
     }
 
     render() {
+        const isSixes = this.state.rollOne + this.state.rollTwo === 12;
         if (this.state.areDiceShown) {
             return (
-                <div className='dice-container'>
+                <div
+                    className={`dice-container ${
+                        isSixes ? 'bg-error' : 'bg-dice'
+                    }`}
+                >
                     <img
                         className='die-image'
                         src={this.images[this.state.rollOne - 1]}
@@ -47,7 +52,7 @@ class DiceComponent extends React.Component {
                 </div>
             );
         }
-        return <div className='dice-container' />;
+        return <div className='dice-container bg-dice' />;
     }
 }
 
