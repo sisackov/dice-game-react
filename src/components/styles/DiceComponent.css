@@ -1,0 +1,16 @@
+.dice-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    height: 6rem;
+    background-color: rgb(228, 203, 62);
+    border-radius: 0.4rem;
+}
+
+.die-image {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.3rem;
+    box-shadow: tomato 0 0 0 0.2rem;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PlayerObject } from '../data/PlayerObject';
 import ButtonComponent from './ButtonComponent';
-import PlayerComponent from './PlayerScore';
+import PlayerComponent from './PlayerComponent';
 import InputText from './InputText';
 
 const DISPLAY_STATE = {
@@ -13,7 +13,7 @@ const DISPLAY_STATE = {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.players = [];
+        this.players = this.getNewPlayers(2);
         this.state = {
             displayState: DISPLAY_STATE.INITIAL,
             diceRoll: [0, 0],
@@ -24,16 +24,23 @@ class App extends React.Component {
         };
     }
 
+    getNewPlayers(numPlayers) {
+        const players = [];
+        for (let i = 0; i < numPlayers; i++) {
+            players.push(new PlayerObject(`Player ${i + 1}`, 0, i === 0));
+        }
+        return players;
+    }
+
     componentDidMount() {
         this.initializeGame();
     }
 
-    initializeGame = () => {
+    initializeGame = (e) => {
         console.log('initializeGame');
-        this.players = [
-            new PlayerObject('Player One', 0, true),
-            new PlayerObject('Player Two', 0, false),
-        ];
+        if (e) {
+            this.players = this.getNewPlayers(2);
+        }
         this.setState({ displayState: DISPLAY_STATE.PLAYING }); //TODO set back to Initial
     };
 
@@ -68,24 +75,35 @@ class App extends React.Component {
     renderMain = () => {
         return (
             <PlayerComponent
+                key={`player-${this.state.currentPlayer}`}
                 player={this.players[this.state.currentPlayer]}
-                rolls={[0, 0]}
+                rolls={this.state.diceRoll}
             />
         );
     };
 
+    rollDice = () => {
+        const diceRoll = [
+            Math.floor(Math.random() * 6),
+            Math.floor(Math.random() * 6),
+        ];
+        this.setState(() => {
+            return { diceRoll: diceRoll };
+        });
+    };
+
     renderBottomBar = () => {
         return this.state.displayState === DISPLAY_STATE.PLAYING ? (
-            <div className='bottom-bar'>
+            <div key='bottom-bar' className='bottom-bar'>
                 <ButtonComponent
                     label='Roll Dice'
                     image='dice'
-                    onClick={this.rollDice}
+                    parentClickHandler={this.rollDice}
                 />
                 <ButtonComponent
                     label='Hold'
                     image='hold'
-                    onClick={this.hold}
+                    parentClickHandler={this.hold}
                 />
             </div>
         ) : null;

@@ -1,13 +1,15 @@
 import React from 'react';
+import './styles/PlayerComponent.css';
 import PlayerScore from './PlayerScore';
 import DiceComponent from './DiceComponent';
 
 class PlayerComponent extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             player: props.player,
-            isActive: props.isActive,
+            isActive: props.player.isActive,
             currentRollSum: 0,
             currentScore: props.player.score,
             currentRolls: props.rolls,
@@ -16,6 +18,7 @@ class PlayerComponent extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log('componentDidUpdate');
         if (prevProps.rolls !== this.props.rolls) {
             const rollSum = this.props.rolls.reduce((a, b) => a + b, 0);
             this.setState({

@@ -29,8 +29,8 @@ class ButtonComponent extends React.Component {
         return (
             <button
                 className='button-container'
-                onClick={() => {
-                    this.props.parentClickHandler();
+                onClick={(e) => {
+                    this.props.parentClickHandler(e);
                 }}
             >
                 <img
