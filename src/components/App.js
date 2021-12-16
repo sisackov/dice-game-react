@@ -73,10 +73,13 @@ class App extends React.Component {
     }
 
     renderMain = () => {
+        const currentPlayer = this.players[this.state.currentPlayer];
         return (
             <PlayerComponent
-                key={`player-${this.state.currentPlayer}`}
-                player={this.players[this.state.currentPlayer]}
+                key={`player-${currentPlayer.name}`}
+                playerName={currentPlayer.name}
+                playerScore={currentPlayer.score}
+                isActive={currentPlayer.isActive}
                 rolls={this.state.diceRoll}
             />
         );
@@ -84,8 +87,8 @@ class App extends React.Component {
 
     rollDice = () => {
         const diceRoll = [
-            Math.floor(Math.random() * 6),
-            Math.floor(Math.random() * 6),
+            Math.floor(Math.random() * 6) + 1,
+            Math.floor(Math.random() * 6) + 1,
         ];
         this.setState(() => {
             return { diceRoll: diceRoll };

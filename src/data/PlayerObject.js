@@ -4,4 +4,8 @@ export class PlayerObject {
         this.score = score;
         this.isActive = isActive;
     }
+
+    updateScore(score) {
+        this.score += score;
+    }
 }

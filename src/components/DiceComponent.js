@@ -36,12 +36,12 @@ class DiceComponent extends React.Component {
                 <div className='dice-container'>
                     <img
                         className='die-image'
-                        src={this.images[this.state.rollOne]}
+                        src={this.images[this.state.rollOne - 1]}
                         alt='First roll'
                     />
                     <img
                         className='die-image'
-                        src={this.images[this.state.rollTwo]}
+                        src={this.images[this.state.rollTwo - 1]}
                         alt='Second roll'
                     />
                 </div>

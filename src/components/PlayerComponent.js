@@ -6,25 +6,22 @@ import DiceComponent from './DiceComponent';
 class PlayerComponent extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
-            player: props.player,
-            isActive: props.player.isActive,
+            playerName: this.props.playerName,
+            isActive: props.isActive,
+            playerScore: this.props.playerScore,
             currentRollSum: 0,
-            currentScore: props.player.score,
             currentRolls: props.rolls,
-            rollHappened: false,
         };
     }
 
     componentDidUpdate(prevProps) {
-        console.log('componentDidUpdate');
         if (prevProps.rolls !== this.props.rolls) {
             const rollSum = this.props.rolls.reduce((a, b) => a + b, 0);
             this.setState({
                 currentRolls: this.props.rolls,
-                currentRollSum: rollSum,
-                rollHappened: rollSum !== 0,
+                currentRollSum: this.state.currentRollSum + rollSum,
+                playerScore: this.state.playerScore + rollSum,
             });
         }
     }
@@ -32,14 +29,14 @@ class PlayerComponent extends React.Component {
     render() {
         return (
             <div className='player-container'>
-                <div className='player-name'>{this.state.player.name}</div>
+                <h2 className='player-name'>{this.state.playerName}</h2>
                 <div className='player-roll'>{this.state.currentRollSum}</div>
                 <DiceComponent
-                    showDice={this.state.rollHappened}
+                    showDice={this.state.currentRollSum !== 0}
                     roll1={this.state.currentRolls[0]}
                     roll2={this.state.currentRolls[1]}
                 />
-                <PlayerScore label='Current' score={this.state.currentScore} />
+                <PlayerScore label='Current' score={this.state.playerScore} />
             </div>
         );
     }
