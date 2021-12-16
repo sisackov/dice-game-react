@@ -3,6 +3,7 @@ import './styles/App.css';
 import { PlayerObject } from '../data/PlayerObject';
 import ButtonComponent from './ButtonComponent';
 import PlayerComponent from './PlayerComponent';
+import GameOverComponent from './GameOverComponent';
 import InputText from './InputText';
 
 const DISPLAY_STATE = {
@@ -23,16 +24,16 @@ class App extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.initializeGame();
+    }
+
     getNewPlayers(numPlayers) {
         const players = [];
         for (let i = 0; i < numPlayers; i++) {
             players.push(new PlayerObject(`Player ${i + 1}`, 0, i === 0));
         }
         return players;
-    }
-
-    componentDidMount() {
-        this.initializeGame();
     }
 
     initializeGame = (e) => {
@@ -98,6 +99,14 @@ class App extends React.Component {
 
     renderMain = () => {
         const currentPlayer = this.players[this.state.currentPlayer];
+        if (this.state.displayState === DISPLAY_STATE.ENDED) {
+            return (
+                <GameOverComponent
+                    players={this.players}
+                    winner={this.state.currentPlayer}
+                />
+            );
+        }
         return (
             <PlayerComponent
                 key={`player-${currentPlayer.name}`}
