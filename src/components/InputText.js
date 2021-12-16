@@ -1,18 +1,31 @@
 import React from 'react';
 
 class InputText extends React.Component {
-    state = { term: '' };
+    constructor(props) {
+        super(props);
+        this.state = {
+            term: '',
+            isError: false,
+        };
+
+        this.inputRef = React.createRef();
+    }
 
     onFormSubmit = (event) => {
         event.preventDefault();
-        this.props.onSubmit(this.state.term);
+        if (this.props.inputValidator(this.state.term)) {
+            this.props.parentSubmitHandler(this.state.term);
+        } else {
+            this.inputRef.current.style.borderColor = 'red';
+        }
     };
 
     render() {
         return (
-            <form className='input-form' onSubmit={this.onFormSubmit}>
+            <form onSubmit={this.onFormSubmit}>
                 <div className='field'>
                     <input
+                        ref={this.inputRef}
                         type='text'
                         value={this.state.term}
                         onChange={(e) =>
