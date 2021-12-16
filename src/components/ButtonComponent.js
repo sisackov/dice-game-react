@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/ButtonComponent.css';
 import new_24 from '../images/new-24.png';
 import new_48 from '../images/new-48.png';
 import hold_32 from '../images/hold-32.png';

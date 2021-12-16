@@ -1,10 +1,11 @@
 import React from 'react';
+import './styles/PlayerScore.css';
 
 class PlayerScore extends React.Component {
     render() {
         return (
             <div className='score-container'>
-                <h4 className='score-label'>{this.props.label}</h4>
+                <h3 className='score-label'>{this.props.label}</h3>
                 <div className='score-count'>{this.props.score}</div>
             </div>
         );

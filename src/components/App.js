@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/App.css';
 import { PlayerObject } from '../data/PlayerObject';
 import ButtonComponent from './ButtonComponent';
 import PlayerComponent from './PlayerComponent';
@@ -97,7 +98,7 @@ class App extends React.Component {
 
     renderBottomBar = () => {
         return this.state.displayState === DISPLAY_STATE.PLAYING ? (
-            <div key='bottom-bar' className='bottom-bar'>
+            <div key='bottom-bar' className='bottom-bar mb-1'>
                 <ButtonComponent
                     label='Roll Dice'
                     image='dice'

@@ -1,0 +1,31 @@
+.field {
+    /* clear: both; */
+    /* margin: 0 0 1em; */
+}
+
+.field > label {
+    display: block;
+    margin: 0 0 0.28571429rem 0;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 0.9em;
+    font-weight: 700;
+    text-transform: none;
+}
+
+.field input {
+    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    margin: 0;
+    outline: 0;
+    line-height: 1.2em;
+    padding: 0.7em 1em;
+    font-size: 1em;
+    background: #fff;
+    border: 3px solid rgba(34, 36, 38, 0.15);
+    color: rgba(0, 0, 0, 0.87);
+    border-radius: 0.28571429rem;
+    box-shadow: 0 0 0 0 transparent inset;
+    transition: color 0.1s ease, border-color 0.1s ease;
+
+    width: 100%;
+    vertical-align: top;
+}
