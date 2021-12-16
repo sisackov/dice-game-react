@@ -2,6 +2,10 @@
 
 My first React app!
 
+## Netlify
+
+https://dice-game-sisackov.netlify.app/
+
 ## Pseudo code:
 
 ### The app will include the following general features:
