@@ -34,23 +34,18 @@ class App extends React.Component {
             new PlayerObject('Player One', 0, true),
             new PlayerObject('Player Two', 0, false),
         ];
-        this.setState({ displayState: DISPLAY_STATE.INITIAL });
+        this.setState({ displayState: DISPLAY_STATE.PLAYING }); //TODO set back to Initial
     };
 
-    setTargetScore = (targetScore) => {
-        console.log('setTargetScore', targetScore);
-        let score = parseInt(targetScore);
-        if (score) {
-            console.log('score is a number');
-        } else {
-            console.log('score is not a number');
-        }
-        // this.setState({ winningScore: targetScore });
+    setTargetScore = (score) => {
+        this.setState(() => {
+            return { targetScore: score, displayState: DISPLAY_STATE.PLAYING };
+        });
     };
 
     renderTopBar() {
         return (
-            <nav className='nav-container'>
+            <nav key='top-navbar' className='nav-container'>
                 <ButtonComponent
                     label='New Game'
                     image='new'
@@ -72,24 +67,27 @@ class App extends React.Component {
 
     renderMain = () => {
         return (
-            <PlayerComponent player={this.players[this.state.currentPlayer]} />
+            <PlayerComponent
+                player={this.players[this.state.currentPlayer]}
+                rolls={[0, 0]}
+            />
         );
     };
 
     renderBottomBar = () => {
         return this.state.displayState === DISPLAY_STATE.PLAYING ? (
-            <aside className='bottom-bar'>
+            <div className='bottom-bar'>
                 <ButtonComponent
-                    btnLabel='Roll Dice'
-                    btnImage='images/roll.png'
+                    label='Roll Dice'
+                    image='dice'
                     onClick={this.rollDice}
                 />
                 <ButtonComponent
-                    btnLabel='Hold'
-                    btnImage='images/hold.png'
+                    label='Hold'
+                    image='hold'
                     onClick={this.hold}
                 />
-            </aside>
+            </div>
         ) : null;
     };
 

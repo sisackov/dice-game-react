@@ -7,13 +7,22 @@
     text-align: center;
 }
 
+.app-container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+    height: 100vh;
+    width: 100vw;
+}
+
 .nav-container {
     display: flex;
     align-items: center;
     background-color: #f2f2f2;
     width: 100%;
     padding: 0 20px;
-    position: fixed;
+    /* position: fixed; */
 }
 
 .button-container {
@@ -95,6 +104,9 @@
     vertical-align: top;
 }
 
-.input--error {
-    border-color: #e74c3c;
+.bottom-bar {
+    justify-self: flex-end;
+
+    display: flex;
+    justify-content: space-around;
 }
