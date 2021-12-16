@@ -10,7 +10,7 @@ class InputText extends React.Component {
 
     render() {
         return (
-            <form className='search-form' onSubmit={this.onFormSubmit}>
+            <form className='input-form' onSubmit={this.onFormSubmit}>
                 <div className='field'>
                     <input
                         type='text'
@@ -18,7 +18,7 @@ class InputText extends React.Component {
                         onChange={(e) =>
                             this.setState({ term: e.target.value })
                         }
-                        placeholder='Search for events...'
+                        placeholder={this.props.label}
                     />
                 </div>
             </form>

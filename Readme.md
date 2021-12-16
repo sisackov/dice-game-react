@@ -1,5 +1,7 @@
 # Dice game
 
+My first React app!
+
 ## Pseudo code:
 
 ### The app will include the following general features:
@@ -92,3 +94,20 @@
 
     -   functions:
         -   updateRollInParent: function
+
+## Time management: total ~ 18 hours
+
+-   pseudo-code: 2.5 hour
+-   components:
+    -   PlayerComponent: 1 hour
+    -   DiceComponent: 0.5 hour
+    -   ButtonComponent: 0.5 hour
+    -   AppComponent: 4 hours
+        -   renderGame: 1 hour
+        -   renderRollDice: 1.5 hour
+        -   renderNewGame: 0.5 hour
+        -   renderGameOver: 0.5 hour
+        -   onHoldClick: 0.5 hour
+    -   styling: 5-6 hour
+    -   testing: 2 hour
+    -   deployment: 0.5 hour

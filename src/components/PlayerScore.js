@@ -1,6 +1,6 @@
 import React from 'react';
 
-class PlayerComponent extends React.Component {
+class PlayerScore extends React.Component {
     render() {
         return (
             <div className='score-container'>
@@ -11,4 +11,4 @@ class PlayerComponent extends React.Component {
     }
 }
 
-export default PlayerComponent;
+export default PlayerScore;

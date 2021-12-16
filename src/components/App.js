@@ -18,7 +18,7 @@ class App extends React.Component {
             new PlayerObject('Player Two', 0, false),
         ];
         this.state = {
-            displayState: 'start',
+            displayState: DISPLAY_STATE.INITIAL,
             diceRoll: [0, 0],
             playerOne: this.players[0],
             playerTwo: this.players[1],
@@ -27,21 +27,47 @@ class App extends React.Component {
         };
     }
 
-    //TODO: add onClick handler, image to buttons
-    renderContent() {
+    initializeGame = () => {
+        console.log('initializeGame');
+        this.setState({ displayState: DISPLAY_STATE.INITIAL });
+    };
+
+    renderTopBar() {
         if (this.state.displayState === DISPLAY_STATE.INITIAL) {
-            return [
+            return (
                 <nav className='nav-container'>
                     <ButtonComponent
                         label='New Game'
                         image='new'
                         parentClickHandler={this.initializeGame}
                     />
-                    <InputText
-                        label='Target Score'
-                        onSubmit={this.setWinningScore}
+                    {this.state.displayState === DISPLAY_STATE.INITIAL ? (
+                        <InputText
+                            label='Target Score'
+                            onSubmit={this.setWinningScore}
+                        />
+                    ) : null}
+                </nav>
+            );
+        } else {
+            return (
+                <nav className='nav-container'>
+                    <ButtonComponent
+                        label='New Game'
+                        image='new'
+                        parentClickHandler={this.initializeGame}
                     />
-                </nav>,
+                </nav>
+            );
+        }
+    }
+
+    //TODO: add onClick handler, image to buttons
+    renderContent() {
+        let topBar = this.renderTopBar();
+        if (this.state.displayState === DISPLAY_STATE.INITIAL) {
+            return [
+                topBar,
                 <PlayerComponent player={this.state.playerOne} />,
                 <aside className='buttons-container'>
                     <ButtonComponent
@@ -58,6 +84,7 @@ class App extends React.Component {
             ];
         } else if (this.state.displayState === DISPLAY_STATE.PLAYING) {
             return [
+                topBar,
                 <PlayerComponent player={this.state.playerOne} />,
                 <aside className='buttons-container'>
                     <ButtonComponent
@@ -72,19 +99,20 @@ class App extends React.Component {
                     />
                 </aside>,
             ];
-        } else if (this.state.displayState === DISPLAY_STATE.ENDED) {
-            return [
-                <PlayerComponent player={this.state.playerOne} />,
-                <PlayerComponent player={this.state.playerTwo} />,
-                <nav className='nav-container'>
-                    <ButtonComponent
-                        btnLabel='New Game'
-                        btnImage='images/new-game.png'
-                        onClick={this.newGame}
-                    />
-                </nav>,
-            ];
         }
+        // else if (this.state.displayState === DISPLAY_STATE.ENDED) {
+        //     return [
+        //         <PlayerComponent player={this.state.playerOne} />,
+        //         <PlayerComponent player={this.state.playerTwo} />,
+        //         <nav className='nav-container'>
+        //             <ButtonComponent
+        //                 btnLabel='New Game'
+        //                 btnImage='images/new-game.png'
+        //                 onClick={this.newGame}
+        //             />
+        //         </nav>,
+        //     ];
+        // }
     }
 
     render() {
