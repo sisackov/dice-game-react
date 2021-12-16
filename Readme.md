@@ -45,10 +45,12 @@ My first React app!
 
 -   Player component that holds the player's state
 
-    -   player: PlayerObject
-    -   isActive: bool
-    -   currentRoll: int
-    -   currentCumulativeRoll: int
+    -   state:
+
+        -   player: PlayerObject
+        -   isActive: bool
+        -   currentRoll: int
+        -   currentCumulativeRoll: int
 
     -   render:
 

@@ -33,33 +33,21 @@ class App extends React.Component {
     };
 
     renderTopBar() {
-        if (this.state.displayState === DISPLAY_STATE.INITIAL) {
-            return (
-                <nav className='nav-container'>
-                    <ButtonComponent
-                        label='New Game'
-                        image='new'
-                        parentClickHandler={this.initializeGame}
+        return (
+            <nav className='nav-container'>
+                <ButtonComponent
+                    label='New Game'
+                    image='new'
+                    parentClickHandler={this.initializeGame}
+                />
+                {this.state.displayState === DISPLAY_STATE.INITIAL ? (
+                    <InputText
+                        label='Target Score'
+                        onSubmit={this.setWinningScore}
                     />
-                    {this.state.displayState === DISPLAY_STATE.INITIAL ? (
-                        <InputText
-                            label='Target Score'
-                            onSubmit={this.setWinningScore}
-                        />
-                    ) : null}
-                </nav>
-            );
-        } else {
-            return (
-                <nav className='nav-container'>
-                    <ButtonComponent
-                        label='New Game'
-                        image='new'
-                        parentClickHandler={this.initializeGame}
-                    />
-                </nav>
-            );
-        }
+                ) : null}
+            </nav>
+        );
     }
 
     //TODO: add onClick handler, image to buttons
