@@ -99,6 +99,10 @@ My first React app!
 
 ## Time management: total ~ 18 hours
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64db965445a8306244e22c58a35b05127f567c8a
 |       Task       | Estimated Time |
 | :--------------: | :------------: |
 |   Pseudo Code    |   2.5 hours    |
