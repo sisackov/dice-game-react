@@ -20,7 +20,13 @@ class PlayerComponent extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.rolls !== this.props.rolls) {
+        if (this.playerObj.isActive !== this.state.isActive) {
+            //switched from active to inactive
+            this.setState({ isActive: this.playerObj.isActive });
+        } else if (
+            this.state.isActive &&
+            prevProps.rolls !== this.props.rolls
+        ) {
             const rollSum = this.props.rolls.reduce((a, b) => a + b);
             if (rollSum === 12) {
                 // rolled 6-6 -> resets the score to the initial value
@@ -67,11 +73,6 @@ class PlayerComponent extends React.Component {
                 <h2 className='player-name'>{this.state.playerName}</h2>
                 <div className='player-roll'>{this.state.currentRollSum}</div>
                 {this.renderDice()}
-                {/* <DiceComponent
-                    showDice={this.state.currentRolls[0] !== 0}
-                    roll1={this.state.currentRolls[0]}
-                    roll2={this.state.currentRolls[1]}
-                /> */}
                 <PlayerScore
                     label='Current Score'
                     score={this.state.playerScore}

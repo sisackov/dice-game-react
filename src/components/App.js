@@ -61,7 +61,6 @@ class App extends React.Component {
     };
 
     rollDice = () => {
-        console.log('rollDice');
         const diceRoll = [
             Math.floor(Math.random() * 6) + 1,
             Math.floor(Math.random() * 6) + 1,
@@ -72,10 +71,14 @@ class App extends React.Component {
     };
 
     onHoldClick = () => {
+        console.log('onHoldClick');
         this.setState(() => {
+            this.players[this.state.currentPlayer].isActive = false;
+            const nextPlayer =
+                (this.state.currentPlayer + 1) % this.players.length;
+            this.players[nextPlayer].isActive = true;
             return {
-                currentPlayer:
-                    (this.state.currentPlayer + 1) % this.players.length,
+                currentPlayer: nextPlayer,
                 diceRoll: [0, 0],
             };
         });
@@ -150,18 +153,20 @@ class App extends React.Component {
     renderContent() {
         if (getWindowWidth() === WINDOW_SIZE.LARGE) {
             return (
-                <div key={'main-component'} className='main-container'>
+                <div key='main-component' className='main-container'>
                     <PlayerComponent
                         key={'player-1-component'}
                         player={this.players[0]}
-                        diceRoll={this.state.diceRoll}
-                        onHoldClick={this.onHoldClick}
+                        target={this.state.targetScore}
+                        rolls={this.state.diceRoll}
+                        onGameOver={this.handleGameOver}
                     />
                     <PlayerComponent
                         key={'player-2-component'}
                         player={this.players[1]}
-                        diceRoll={this.state.diceRoll}
-                        onHoldClick={this.onHoldClick}
+                        target={this.state.targetScore}
+                        rolls={this.state.diceRoll}
+                        onGameOver={this.handleGameOver}
                     />
                     <div className='main-fold'>
                         <nav className='nav-container'>
