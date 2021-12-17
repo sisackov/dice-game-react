@@ -47,7 +47,7 @@ class PlayerComponent extends React.Component {
     }
 
     renderDice() {
-        if (!this.state.isActive) return null;
+        if (!this.state.isActive || !this.state.currentRolls) return null;
         return (
             <DiceComponent
                 showDice={this.state.currentRolls[0] !== 0}

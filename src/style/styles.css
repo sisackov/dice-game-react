@@ -5,8 +5,24 @@
     font-family: sans-serif;
 }
 
+.mt-1 {
+    margin-top: 0.5rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
 .mb-1 {
     margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mv-2 {
+    margin: 2rem 0;
 }
 
 .bg-dark {

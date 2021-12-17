@@ -20,3 +20,43 @@
     display: flex;
     justify-content: space-around;
 }
+
+.main-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.main-fold {
+    position: absolute;
+    /* top: 2rem; */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-width: 720px) {
+    .nav-container {
+        background-color: transparent;
+        flex-direction: column;
+
+        margin-top: 2rem;
+    }
+
+    .bottom-bar {
+        justify-self: flex-end;
+
+        flex-direction: column;
+        justify-content: space-around;
+        align-self: center;
+        height: 20%;
+
+        margin-bottom: 10rem;
+    }
+}

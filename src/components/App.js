@@ -12,6 +12,16 @@ const DISPLAY_STATE = {
     ENDED: 'ended',
 };
 
+const WINDOW_SIZE = {
+    SMALL: 'small',
+    MEDIUM: 'medium',
+    LARGE: 'large',
+};
+
+export function getWindowWidth() {
+    return window.innerWidth > 720 ? WINDOW_SIZE.LARGE : WINDOW_SIZE.SMALL;
+}
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -51,6 +61,7 @@ class App extends React.Component {
     };
 
     rollDice = () => {
+        console.log('rollDice');
         const diceRoll = [
             Math.floor(Math.random() * 6) + 1,
             Math.floor(Math.random() * 6) + 1,
@@ -137,6 +148,56 @@ class App extends React.Component {
     };
 
     renderContent() {
+        if (getWindowWidth() === WINDOW_SIZE.LARGE) {
+            return (
+                <div key={'main-component'} className='main-container'>
+                    <PlayerComponent
+                        key={'player-1-component'}
+                        player={this.players[0]}
+                        diceRoll={this.state.diceRoll}
+                        onHoldClick={this.onHoldClick}
+                    />
+                    <PlayerComponent
+                        key={'player-2-component'}
+                        player={this.players[1]}
+                        diceRoll={this.state.diceRoll}
+                        onHoldClick={this.onHoldClick}
+                    />
+                    <div className='main-fold'>
+                        <nav className='nav-container'>
+                            <ButtonComponent
+                                label='New Game'
+                                image='new'
+                                parentClickHandler={this.initializeGame}
+                            />
+                            {this.state.displayState ===
+                            DISPLAY_STATE.INITIAL ? (
+                                <InputText
+                                    label='Target Score'
+                                    parentSubmitHandler={this.setTargetScore}
+                                    inputValidator={(text) => {
+                                        let score = parseInt(text);
+                                        return score && score > 0;
+                                    }}
+                                />
+                            ) : null}
+                        </nav>
+                        <div className='bottom-bar'>
+                            <ButtonComponent
+                                label='Roll Dice'
+                                image='dice'
+                                parentClickHandler={this.rollDice}
+                            />
+                            <ButtonComponent
+                                label='Hold'
+                                image='hold'
+                                parentClickHandler={this.onHoldClick}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
         return [this.renderTopBar(), this.renderMain(), this.renderBottomBar()];
     }
 
