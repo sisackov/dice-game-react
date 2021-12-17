@@ -20,7 +20,7 @@ class App extends React.Component {
             displayState: DISPLAY_STATE.INITIAL,
             diceRoll: [0, 0],
             currentPlayer: 0, // index of the player whose turn it is
-            targetScore: 100, // the winning score - will be defined on new game
+            targetScore: 20, // the winning score - will be defined on new game
         };
     }
 
@@ -61,18 +61,18 @@ class App extends React.Component {
     };
 
     onHoldClick = () => {
-        const { currentPlayer, targetScore } = this.state;
-        if (this.players[currentPlayer].score > targetScore) {
-            //game over  TODO: add game over screen
-            this.setState({ displayState: DISPLAY_STATE.ENDED });
-        } else {
-            this.setState(() => {
-                return {
-                    currentPlayer: (currentPlayer + 1) % this.players.length,
-                    diceRoll: [0, 0],
-                };
-            });
-        }
+        this.setState(() => {
+            return {
+                currentPlayer:
+                    (this.state.currentPlayer + 1) % this.players.length,
+                diceRoll: [0, 0],
+            };
+        });
+        // }
+    };
+
+    handleGameOver = () => {
+        this.setState({ displayState: DISPLAY_STATE.ENDED });
     };
 
     renderTopBar() {
@@ -102,6 +102,7 @@ class App extends React.Component {
         if (this.state.displayState === DISPLAY_STATE.ENDED) {
             return (
                 <GameOverComponent
+                    key={'game-over-component'}
                     players={this.players}
                     winner={this.state.currentPlayer}
                 />
@@ -113,6 +114,7 @@ class App extends React.Component {
                 player={currentPlayer}
                 target={this.state.targetScore}
                 rolls={this.state.diceRoll}
+                onGameOver={this.handleGameOver}
             />
         );
     };

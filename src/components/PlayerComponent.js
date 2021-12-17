@@ -34,7 +34,7 @@ class PlayerComponent extends React.Component {
                 this.setState(() => {
                     this.playerObj.updateScore(rollSum);
                     if (this.playerObj.score >= this.targetScore) {
-                        //TODO: end game
+                        this.props.onGameOver();
                     }
                     return {
                         currentRolls: this.props.rolls,
@@ -46,16 +46,32 @@ class PlayerComponent extends React.Component {
         }
     }
 
+    renderDice() {
+        if (!this.state.isActive) return null;
+        return (
+            <DiceComponent
+                showDice={this.state.currentRolls[0] !== 0}
+                roll1={this.state.currentRolls[0]}
+                roll2={this.state.currentRolls[1]}
+            />
+        );
+    }
+
     render() {
         return (
-            <div className={`player-container`}>
+            <div
+                className={`player-container ${
+                    this.state.isActive ? 'bg-active' : 'bg-holding'
+                }`}
+            >
                 <h2 className='player-name'>{this.state.playerName}</h2>
                 <div className='player-roll'>{this.state.currentRollSum}</div>
-                <DiceComponent
+                {this.renderDice()}
+                {/* <DiceComponent
                     showDice={this.state.currentRolls[0] !== 0}
                     roll1={this.state.currentRolls[0]}
                     roll2={this.state.currentRolls[1]}
-                />
+                /> */}
                 <PlayerScore
                     label='Current Score'
                     score={this.state.playerScore}
