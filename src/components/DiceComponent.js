@@ -6,6 +6,7 @@ import dice_3 from '../images/dice-3.png';
 import dice_4 from '../images/dice-4.png';
 import dice_5 from '../images/dice-5.png';
 import dice_6 from '../images/dice-6.png';
+import { BAD_DICE_ROLLS } from '../data/config';
 
 class DiceComponent extends React.Component {
     constructor(props) {
@@ -31,12 +32,14 @@ class DiceComponent extends React.Component {
     }
 
     render() {
-        const isSixes = this.state.rollOne + this.state.rollTwo === 12;
+        const isBadRoll = BAD_DICE_ROLLS.includes(
+            this.state.rollOne + this.state.rollTwo
+        );
         if (this.state.areDiceShown) {
             return (
                 <div
                     className={`dice-container ${
-                        isSixes ? 'bg-error' : 'bg-dice'
+                        isBadRoll ? 'bg-error' : 'bg-dice'
                     }`}
                 >
                     <img

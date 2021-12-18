@@ -46,7 +46,10 @@
     .nav-container {
         background-color: transparent;
         flex-direction: column;
+        margin-top: 2rem;
+    }
 
+    .nav-container form {
         margin-top: 2rem;
     }
 

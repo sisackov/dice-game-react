@@ -23,6 +23,9 @@ class PlayerComponent extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.playerObj.isActive !== this.state.isActive) {
             //switching active state
+            if (this.playerObj.isActive) {
+                this.initialScore = this.playerObj.score;
+            }
             this.setState({ isActive: this.playerObj.isActive });
         } else if (
             this.state.isActive &&

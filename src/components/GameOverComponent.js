@@ -6,10 +6,7 @@ import loserImg from '../images/loser.png';
 class GameOverComponent extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
-        const size = 'small'; //TODO: add logic to determine size
         this.state = {
-            size: size,
             winner: this.props.players[this.props.winner],
             loser: this.props.players[(this.props.winner + 1) % 2],
         };
