@@ -1,29 +1,18 @@
 import React from 'react';
 import './styles/App.css';
 import { PlayerObject } from '../data/PlayerObject';
+import { getRandomInRange, getWindowWidth, WINDOW_SIZE } from '../data/config';
 import ButtonComponent from './ButtonComponent';
 import PlayerComponent from './PlayerComponent';
 import GameOverComponent from './GameOverComponent';
 import InputText from './InputText';
+import PlayerScore from './PlayerScore';
 
 const DISPLAY_STATE = {
     INITIAL: 'initial',
     PLAYING: 'playing',
     ENDED: 'ended',
 };
-
-const WINDOW_SIZE = {
-    //TODO move to config
-    SMALL: 'small',
-    MEDIUM: 'medium',
-    LARGE: 'large',
-};
-
-export const BAD_DICE_ROLLS = [12]; //these are the dice rolls that will reset the player's score to turn's starting score
-
-export function getWindowWidth() {
-    return window.innerWidth > 720 ? WINDOW_SIZE.LARGE : WINDOW_SIZE.SMALL;
-}
 
 class App extends React.Component {
     constructor(props) {
@@ -50,36 +39,40 @@ class App extends React.Component {
         return players;
     }
 
-    initializeGame = (e) => {
-        console.log('initializeGame');
-        if (e) {
+    initializeGame = (targetScore) => {
+        const newTargetScore = parseInt(targetScore);
+        if (isNaN(newTargetScore)) {
+            this.setState({
+                displayState: DISPLAY_STATE.INITIAL,
+                diceRoll: [0, 0],
+                currentPlayer: 0,
+            });
+        } else {
             this.players = this.getNewPlayers(2);
+            this.setState({
+                displayState: DISPLAY_STATE.PLAYING,
+                targetScore: targetScore,
+                diceRoll: [0, 0],
+                currentPlayer: 0,
+            });
         }
-        this.setState({ displayState: DISPLAY_STATE.PLAYING }); //TODO set back to Initial
-    };
-
-    setTargetScore = (score) => {
-        this.setState(() => {
-            return { targetScore: score, displayState: DISPLAY_STATE.PLAYING };
-        });
     };
 
     rollDice = () => {
-        const diceRoll = [
-            Math.floor(Math.random() * 6) + 1,
-            Math.floor(Math.random() * 6) + 1,
-        ];
+        const diceRoll = [getRandomInRange(), getRandomInRange()];
         this.setState(() => {
             return { diceRoll: diceRoll };
         });
     };
 
+    getNextPlayer = () => {
+        return (this.state.currentPlayer + 1) % this.players.length;
+    };
+
     onHoldClick = () => {
-        console.log('onHoldClick');
         this.setState(() => {
             this.players[this.state.currentPlayer].isActive = false;
-            const nextPlayer =
-                (this.state.currentPlayer + 1) % this.players.length;
+            const nextPlayer = this.getNextPlayer();
             this.players[nextPlayer].isActive = true;
             return {
                 currentPlayer: nextPlayer,
@@ -104,7 +97,7 @@ class App extends React.Component {
                 {this.state.displayState === DISPLAY_STATE.INITIAL ? (
                     <InputText
                         label='Target Score'
-                        parentSubmitHandler={this.setTargetScore}
+                        parentSubmitHandler={this.initializeGame}
                         inputValidator={(text) => {
                             let score = parseInt(text);
                             return score && score > 0;
@@ -117,7 +110,10 @@ class App extends React.Component {
 
     renderMain = () => {
         const currentPlayer = this.players[this.state.currentPlayer];
-        if (this.state.displayState === DISPLAY_STATE.ENDED) {
+        const otherPlayer = this.players[this.getNextPlayer()];
+        if (this.state.displayState === DISPLAY_STATE.INITIAL) {
+            return <div key='main-component' className='main-container'></div>;
+        } else if (this.state.displayState === DISPLAY_STATE.ENDED) {
             return (
                 <GameOverComponent
                     key={'game-over-component'}
@@ -127,13 +123,20 @@ class App extends React.Component {
             );
         } else if (this.state.windowWidth === WINDOW_SIZE.SMALL) {
             return (
-                <PlayerComponent
-                    key={`player-${currentPlayer.name}`}
-                    player={currentPlayer}
-                    target={this.state.targetScore}
-                    rolls={this.state.diceRoll}
-                    onGameOver={this.handleGameOver}
-                />
+                <div key='main-component' className='main-container'>
+                    <PlayerScore
+                        isMain={true}
+                        label={otherPlayer.name}
+                        score={otherPlayer.score}
+                    />
+                    <PlayerComponent
+                        key={`player-${currentPlayer.name}`}
+                        player={currentPlayer}
+                        target={this.state.targetScore}
+                        rolls={this.state.diceRoll}
+                        onGameOver={this.handleGameOver}
+                    />
+                </div>
             );
         } else {
             return [
@@ -188,7 +191,7 @@ class App extends React.Component {
                             DISPLAY_STATE.INITIAL ? (
                                 <InputText
                                     label='Target Score'
-                                    parentSubmitHandler={this.setTargetScore}
+                                    parentSubmitHandler={this.initializeGame}
                                     inputValidator={(text) => {
                                         let score = parseInt(text);
                                         return score && score > 0;

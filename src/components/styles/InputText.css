@@ -1,9 +1,4 @@
-.field {
-    /* clear: both; */
-    /* margin: 0 0 1em; */
-}
-
-.field > label {
+.field-label {
     display: block;
     margin: 0 0 0.28571429rem 0;
     color: rgba(0, 0, 0, 0.87);
@@ -12,7 +7,7 @@
     text-transform: none;
 }
 
-.field input {
+.field-input {
     font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
     margin: 0;
     outline: 0;

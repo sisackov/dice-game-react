@@ -12,6 +12,12 @@
     border-radius: 0.2rem;
 }
 
+.sc--absolute {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+}
+
 .score-count {
     font-size: 1.4rem;
     font-weight: 500;

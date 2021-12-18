@@ -6,7 +6,7 @@ import hold_32 from '../images/hold-32.png';
 import hold_48 from '../images/hold-48.png';
 import dice_32 from '../images/dice-32.png';
 import dice_48 from '../images/dice-48.png';
-import { getWindowWidth } from './App';
+import { getWindowWidth } from '../data/config';
 
 class ButtonComponent extends React.Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class ButtonComponent extends React.Component {
             dice_small: dice_32,
             dice_large: dice_48,
         };
-        const size = getWindowWidth(); //TODO: add logic to determine size
+        const size = getWindowWidth();
         this.state = {
             size: size,
             btnImage: this.images[`${this.props.image}_${size}`],

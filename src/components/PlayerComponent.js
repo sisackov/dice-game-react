@@ -2,7 +2,7 @@ import React from 'react';
 import './styles/PlayerComponent.css';
 import PlayerScore from './PlayerScore';
 import DiceComponent from './DiceComponent';
-import { BAD_DICE_ROLLS } from './App';
+import { BAD_DICE_ROLLS } from '../data/config';
 
 class PlayerComponent extends React.Component {
     constructor(props) {
@@ -20,10 +20,6 @@ class PlayerComponent extends React.Component {
         this.playerObj = player;
     }
 
-    /**
-     * TODO: update documenation
-     * @param {*} prevProps
-     */
     componentDidUpdate(prevProps) {
         if (this.playerObj.isActive !== this.state.isActive) {
             //switching active state
@@ -45,7 +41,6 @@ class PlayerComponent extends React.Component {
             } else {
                 this.playerObj.updateScore(rollSum);
                 if (this.playerObj.score >= this.targetScore) {
-                    console.log('game over');
                     //if player reached game's target score
                     this.props.onGameOver();
                 } else {
@@ -72,13 +67,15 @@ class PlayerComponent extends React.Component {
         );
     }
 
+    getClassName() {
+        return `player-container ${
+            this.state.isActive ? 'bg-active' : 'bg-holding'
+        }`;
+    }
+
     render() {
         return (
-            <div
-                className={`player-container ${
-                    this.state.isActive ? 'bg-active' : 'bg-holding'
-                }`}
-            >
+            <div className={this.getClassName()}>
                 <h2 className='player-name'>{this.state.playerName}</h2>
                 <div className='player-roll'>{this.state.currentRollSum}</div>
                 {this.renderDice()}

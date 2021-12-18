@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/InputText.css';
 
 class InputText extends React.Component {
     constructor(props) {
@@ -23,17 +24,14 @@ class InputText extends React.Component {
     render() {
         return (
             <form onSubmit={this.onFormSubmit}>
-                <div className='field'>
-                    <input
-                        ref={this.inputRef}
-                        type='text'
-                        value={this.state.term}
-                        onChange={(e) =>
-                            this.setState({ term: e.target.value })
-                        }
-                        placeholder={this.props.label}
-                    />
-                </div>
+                <input
+                    className='field-input'
+                    ref={this.inputRef}
+                    type='text'
+                    value={this.state.term}
+                    onChange={(e) => this.setState({ term: e.target.value })}
+                    placeholder={this.props.label}
+                />
             </form>
         );
     }
