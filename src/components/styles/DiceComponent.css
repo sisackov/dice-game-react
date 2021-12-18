@@ -8,6 +8,12 @@
     border-radius: 0.4rem;
 }
 
+.dice-container-inactive {
+    display: block;
+    width: 70%;
+    height: 6rem;
+}
+
 .die-image {
     width: 4rem;
     height: 4rem;

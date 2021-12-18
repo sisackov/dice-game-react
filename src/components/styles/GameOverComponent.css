@@ -7,12 +7,18 @@
     height: 100%;
 }
 
-.game-over_image--small {
-    width: 250px;
-    height: 250px;
+.game-over-image {
+    width: 200px;
+    height: 200px;
 }
 
-.game-over_image--large {
-    width: 500px;
-    height: 500px;
+@media (min-width: 720px) {
+    .component-container {
+        flex-direction: row;
+    }
+
+    .game-over-image {
+        width: 250px;
+        height: 250px;
+    }
 }

@@ -13,10 +13,13 @@ const DISPLAY_STATE = {
 };
 
 const WINDOW_SIZE = {
+    //TODO move to config
     SMALL: 'small',
     MEDIUM: 'medium',
     LARGE: 'large',
 };
+
+export const BAD_DICE_ROLLS = [12]; //these are the dice rolls that will reset the player's score to turn's starting score
 
 export function getWindowWidth() {
     return window.innerWidth > 720 ? WINDOW_SIZE.LARGE : WINDOW_SIZE.SMALL;
@@ -28,6 +31,7 @@ class App extends React.Component {
         this.players = this.getNewPlayers(2);
         this.state = {
             displayState: DISPLAY_STATE.INITIAL,
+            windowWidth: getWindowWidth(),
             diceRoll: [0, 0],
             currentPlayer: 0, // index of the player whose turn it is
             targetScore: 20, // the winning score - will be defined on new game
@@ -121,16 +125,34 @@ class App extends React.Component {
                     winner={this.state.currentPlayer}
                 />
             );
+        } else if (this.state.windowWidth === WINDOW_SIZE.SMALL) {
+            return (
+                <PlayerComponent
+                    key={`player-${currentPlayer.name}`}
+                    player={currentPlayer}
+                    target={this.state.targetScore}
+                    rolls={this.state.diceRoll}
+                    onGameOver={this.handleGameOver}
+                />
+            );
+        } else {
+            return [
+                <PlayerComponent
+                    key={'player-1-component'}
+                    player={this.players[0]}
+                    target={this.state.targetScore}
+                    rolls={this.state.diceRoll}
+                    onGameOver={this.handleGameOver}
+                />,
+                <PlayerComponent
+                    key={'player-2-component'}
+                    player={this.players[1]}
+                    target={this.state.targetScore}
+                    rolls={this.state.diceRoll}
+                    onGameOver={this.handleGameOver}
+                />,
+            ];
         }
-        return (
-            <PlayerComponent
-                key={`player-${currentPlayer.name}`}
-                player={currentPlayer}
-                target={this.state.targetScore}
-                rolls={this.state.diceRoll}
-                onGameOver={this.handleGameOver}
-            />
-        );
     };
 
     renderBottomBar = () => {
@@ -154,20 +176,7 @@ class App extends React.Component {
         if (getWindowWidth() === WINDOW_SIZE.LARGE) {
             return (
                 <div key='main-component' className='main-container'>
-                    <PlayerComponent
-                        key={'player-1-component'}
-                        player={this.players[0]}
-                        target={this.state.targetScore}
-                        rolls={this.state.diceRoll}
-                        onGameOver={this.handleGameOver}
-                    />
-                    <PlayerComponent
-                        key={'player-2-component'}
-                        player={this.players[1]}
-                        target={this.state.targetScore}
-                        rolls={this.state.diceRoll}
-                        onGameOver={this.handleGameOver}
-                    />
+                    {this.renderMain()}
                     <div className='main-fold'>
                         <nav className='nav-container'>
                             <ButtonComponent
@@ -187,18 +196,20 @@ class App extends React.Component {
                                 />
                             ) : null}
                         </nav>
-                        <div className='bottom-bar'>
-                            <ButtonComponent
-                                label='Roll Dice'
-                                image='dice'
-                                parentClickHandler={this.rollDice}
-                            />
-                            <ButtonComponent
-                                label='Hold'
-                                image='hold'
-                                parentClickHandler={this.onHoldClick}
-                            />
-                        </div>
+                        {this.state.displayState === DISPLAY_STATE.PLAYING ? (
+                            <div className='bottom-bar'>
+                                <ButtonComponent
+                                    label='Roll Dice'
+                                    image='dice'
+                                    parentClickHandler={this.rollDice}
+                                />
+                                <ButtonComponent
+                                    label='Hold'
+                                    image='hold'
+                                    parentClickHandler={this.onHoldClick}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             );

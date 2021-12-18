@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/PlayerComponent.css';
 import PlayerScore from './PlayerScore';
 import DiceComponent from './DiceComponent';
+import { BAD_DICE_ROLLS } from './App';
 
 class PlayerComponent extends React.Component {
     constructor(props) {
@@ -19,17 +20,22 @@ class PlayerComponent extends React.Component {
         this.playerObj = player;
     }
 
+    /**
+     * TODO: update documenation
+     * @param {*} prevProps
+     */
     componentDidUpdate(prevProps) {
         if (this.playerObj.isActive !== this.state.isActive) {
-            //switched from active to inactive
+            //switching active state
             this.setState({ isActive: this.playerObj.isActive });
         } else if (
             this.state.isActive &&
             prevProps.rolls !== this.props.rolls
         ) {
+            // only update screen if the player is active
             const rollSum = this.props.rolls.reduce((a, b) => a + b);
-            if (rollSum === 12) {
-                // rolled 6-6 -> resets the score to the initial value
+            if (BAD_DICE_ROLLS.includes(rollSum)) {
+                //resets the score to the initial value
                 this.playerObj.score = this.initialScore;
                 this.setState({
                     currentRolls: this.props.rolls,
@@ -37,23 +43,26 @@ class PlayerComponent extends React.Component {
                     playerScore: this.initialScore,
                 });
             } else {
-                this.setState(() => {
-                    this.playerObj.updateScore(rollSum);
-                    if (this.playerObj.score >= this.targetScore) {
-                        this.props.onGameOver();
-                    }
-                    return {
+                this.playerObj.updateScore(rollSum);
+                if (this.playerObj.score >= this.targetScore) {
+                    console.log('game over');
+                    //if player reached game's target score
+                    this.props.onGameOver();
+                } else {
+                    this.setState({
                         currentRolls: this.props.rolls,
                         currentRollSum: this.state.currentRollSum + rollSum,
                         playerScore: this.state.playerScore + rollSum,
-                    };
-                });
+                    });
+                }
             }
         }
     }
 
     renderDice() {
-        if (!this.state.isActive || !this.state.currentRolls) return null;
+        if (!this.state.isActive || !this.state.currentRolls) {
+            return <div className='dice-container-inactive'></div>;
+        }
         return (
             <DiceComponent
                 showDice={this.state.currentRolls[0] !== 0}

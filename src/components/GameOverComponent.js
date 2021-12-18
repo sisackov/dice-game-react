@@ -20,13 +20,13 @@ class GameOverComponent extends React.Component {
             <div className='component-container'>
                 <h1>{`${this.state.winner.name} WON!!!!!!`}</h1>
                 <img
-                    className={`game-over_image--${this.state.size}`}
+                    className='game-over-image'
                     src={winnerImg}
                     alt='winner comic'
                 />
                 <h2>{`${this.state.loser.name} Go cry in a corner`}</h2>
                 <img
-                    className={`game-over_image--${this.state.size}`}
+                    className='game-over-image'
                     src={loserImg}
                     alt='loser comic'
                 />
