@@ -1,7 +1,12 @@
 import React from 'react';
 import './styles/App.css';
 import { PlayerObject } from '../data/PlayerObject';
-import { getRandomInRange, getWindowWidth, WINDOW_SIZE } from '../data/config';
+import {
+    getRandomInRange,
+    getWindowWidth,
+    WINDOW_SIZE,
+    NUM_OF_PLAYERS,
+} from '../data/config';
 import ButtonComponent from './ButtonComponent';
 import PlayerComponent from './PlayerComponent';
 import GameOverComponent from './GameOverComponent';
@@ -17,7 +22,7 @@ const DISPLAY_STATE = {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.players = this.getNewPlayers(2);
+        this.players = this.getNewPlayers();
         this.state = {
             displayState: DISPLAY_STATE.INITIAL,
             windowWidth: getWindowWidth(),
@@ -31,9 +36,9 @@ class App extends React.Component {
         this.initializeGame();
     }
 
-    getNewPlayers(numPlayers) {
+    getNewPlayers() {
         const players = [];
-        for (let i = 0; i < numPlayers; i++) {
+        for (let i = 0; i < NUM_OF_PLAYERS; i++) {
             players.push(new PlayerObject(`Player ${i + 1}`, 0, i === 0));
         }
         return players;
@@ -65,14 +70,14 @@ class App extends React.Component {
         });
     };
 
-    getNextPlayer = () => {
-        return (this.state.currentPlayer + 1) % this.players.length;
+    getNextPlayer = (player) => {
+        return (player + 1) % NUM_OF_PLAYERS;
     };
 
     onHoldClick = () => {
         this.setState(() => {
             this.players[this.state.currentPlayer].isActive = false;
-            const nextPlayer = this.getNextPlayer();
+            const nextPlayer = this.getNextPlayer(this.state.currentPlayer);
             this.players[nextPlayer].isActive = true;
             return {
                 currentPlayer: nextPlayer,
@@ -110,7 +115,8 @@ class App extends React.Component {
 
     renderMain = () => {
         const currentPlayer = this.players[this.state.currentPlayer];
-        const otherPlayer = this.players[this.getNextPlayer()];
+        const otherPlayer =
+            this.players[this.getNextPlayer(this.state.currentPlayer)];
         if (this.state.displayState === DISPLAY_STATE.INITIAL) {
             return <div key='main-component' className='main-container'></div>;
         } else if (this.state.displayState === DISPLAY_STATE.ENDED) {

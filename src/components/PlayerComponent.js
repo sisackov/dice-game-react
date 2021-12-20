@@ -26,7 +26,10 @@ class PlayerComponent extends React.Component {
             if (this.playerObj.isActive) {
                 this.initialScore = this.playerObj.score;
             }
-            this.setState({ isActive: this.playerObj.isActive });
+            this.setState({
+                isActive: this.playerObj.isActive,
+                currentRollSum: 0,
+            });
         } else if (
             this.state.isActive &&
             prevProps.rolls !== this.props.rolls
