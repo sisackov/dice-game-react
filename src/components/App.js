@@ -145,17 +145,22 @@ class App extends React.Component {
                 </div>
             );
         } else {
+            let [left, right] = [0, 1];
+            if (NUM_OF_PLAYERS > 2) {
+                left = this.state.currentPlayer;
+                right = this.getNextPlayer(left);
+            }
             return [
                 <PlayerComponent
-                    key={'player-1-component'}
-                    player={this.players[0]}
+                    key={`player-${left}-component`}
+                    player={this.players[left]}
                     target={this.state.targetScore}
                     rolls={this.state.diceRoll}
                     onGameOver={this.handleGameOver}
                 />,
                 <PlayerComponent
-                    key={'player-2-component'}
-                    player={this.players[1]}
+                    key={`player-${right}-component`}
+                    player={this.players[right]}
                     target={this.state.targetScore}
                     rolls={this.state.diceRoll}
                     onGameOver={this.handleGameOver}
